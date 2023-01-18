@@ -55,6 +55,7 @@ class RightCorridorEnv(MiniGridEnv):
         self._agent_default_pos = (1, 1)
 
         self.size = 11
+        self.num_goals = 5
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -144,15 +145,15 @@ class RightCorridorEnv(MiniGridEnv):
             if fwd_cell is not None and "goal" in fwd_cell.type:
                 done = True
                 if fwd_cell.type == "goal1":
-                    reward = 10
+                    reward = 1. / self.num_goals
                 elif fwd_cell.type == "goal2":
-                    reward = 20
+                    reward = 2. / self.num_goals
                 elif fwd_cell.type == "goal3":
-                    reward = 30
+                    reward = 3. / self.num_goals
                 elif fwd_cell.type == "goal4":
-                    reward = 40
+                    reward = 4. / self.num_goals
                 elif fwd_cell.type == "goal5":
-                    reward = 50
+                    reward = 5. / self.num_goals
             if fwd_cell is not None and fwd_cell.type == "lava":
                 done = True
         # Pick up an object
