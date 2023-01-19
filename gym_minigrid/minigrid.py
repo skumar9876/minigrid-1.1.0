@@ -346,6 +346,17 @@ class WorldObj:
             v = Goal()
         elif obj_type == "lava":
             v = Lava()
+        elif obj_type == "goal1":
+            v = MultiColorGoal("goal1", color)
+        elif obj_type == "goal2":
+            v = MultiColorGoal("goal2", color)
+        elif obj_type == "goal3":
+            v = MultiColorGoal("goal3", color)
+        elif obj_type == "goal4":
+            v = MultiColorGoal("goal4", color)
+        elif obj_type == "goal5":
+            v = MultiColorGoal("goal5", color)
+
         else:
             assert False, "unknown object type in decode '%s'" % obj_type
 
@@ -876,7 +887,7 @@ class MiniGridEnv(gym.Env):
         height: int = None,
         max_steps: int = 100,
         see_through_walls: bool = False,
-        agent_view_size: int = 7,
+        agent_view_size: int = 9,
         highlight: bool = True,
         tile_size: int = TILE_PIXELS,
         **kwargs,
