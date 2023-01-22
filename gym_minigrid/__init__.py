@@ -6,6 +6,14 @@ from gym_minigrid.minigrid import Wall
 
 def register_custom_envs():
 
+    # StaircaseEnv
+    # ----------------------------------------
+
+    register(
+        id="MiniGrid-StaircaseEnv-v0",
+        entry_point="gym_minigrid.envs:StaircaseEnv"
+    )
+
     # CorridorEnv
     # ----------------------------------------
 

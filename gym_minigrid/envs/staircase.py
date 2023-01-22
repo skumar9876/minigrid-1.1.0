@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal
+from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal, Floor
 import numpy as np
 
 
-class RightCorridorEnv(MiniGridEnv):
+class StaircaseEnv(MiniGridEnv):
 
     """
     ## Description
 
-    Reinforcement learning environment with corriodors to different goal states.
+    Reinforcement learning environment with staircase structure to different goal states.
     The agent must navigate from the top left corner to one of the goal states,
     each of which is terminal. Goal states that are further from the agent have 
     larger reward.
@@ -74,6 +74,18 @@ class RightCorridorEnv(MiniGridEnv):
         # Create the grid
         self.grid = Grid(width, height)
 
+        for i in range(0, 3):
+            for j in range(0, height):
+                self.grid.set(i, j, Floor("yellow"))
+        
+        for i in range(3, 6):
+            for j in range(0, height):
+                self.grid.set(i, j, Floor("green"))
+        
+        for i in range(6, 10):
+            for j in range(0, height):
+                self.grid.set(i, j, Floor("red"))
+
         # Generate the surrounding walls
         self.grid.horz_wall(0, 0)
         self.grid.horz_wall(0, height - 1)
@@ -81,11 +93,9 @@ class RightCorridorEnv(MiniGridEnv):
         self.grid.vert_wall(width - 1, 0)
 
         # Generate the corridor walls
-        self.grid.horz_wall(2, 2)
-        self.grid.horz_wall(2, 4)
-        self.grid.horz_wall(2, 6)
-        self.grid.horz_wall(2, 8)
-        self.grid.horz_wall(2, 10)
+        self.grid.vert_wall(3, 1, 7)
+        self.grid.vert_wall(6, 3, 7)
+        self.grid.vert_wall(9, 1, 7)
 
         room_w = width // 2
         room_h = height // 2
@@ -98,17 +108,14 @@ class RightCorridorEnv(MiniGridEnv):
         self.agent_dir = self._rand_int(0, 4)
 
         # Create and set the goals.
-        goals = [MultiColorGoal("goal1", "red"),
-                 MultiColorGoal("goal2", "green"),
-                 MultiColorGoal("goal3", "blue"), 
-                 MultiColorGoal("goal4", "purple"),
-                 MultiColorGoal("goal5", "yellow")]
+        goals = [MultiColorGoal("goal1", "blue"),
+                 MultiColorGoal("goal2", "blue"), 
+                 MultiColorGoal("goal3", "blue")]
         
-        goal_positions = [(width - 2, 1),
-                          (width - 2, 3),
-                          (width - 2, 5),
-                          (width - 2, 7),
-                          (width - 2, 9)]
+        goal_positions = [(3, 9),
+                          (5, 1),
+                          (9, 9)]
+
         
         for i in range(len(goals)):
             goal = goals[i]
@@ -145,15 +152,11 @@ class RightCorridorEnv(MiniGridEnv):
             if fwd_cell is not None and "goal" in fwd_cell.type:
                 done = True
                 if fwd_cell.type == "goal1":
-                    reward = 1. / self.num_goals
+                    reward = 0.1
                 elif fwd_cell.type == "goal2":
-                    reward = 2. / self.num_goals
+                    reward = 0.5
                 elif fwd_cell.type == "goal3":
-                    reward = 3. / self.num_goals
-                elif fwd_cell.type == "goal4":
-                    reward = 4. / self.num_goals
-                elif fwd_cell.type == "goal5":
-                    reward = 5. / self.num_goals
+                    reward = 1.
             if fwd_cell is not None and fwd_cell.type == "lava":
                 done = True
         # Pick up an object

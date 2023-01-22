@@ -26,3 +26,4 @@ from gym_minigrid.envs.unlockpickup import UnlockPickupEnv
 
 from gym_minigrid.envs.corridor import CorridorEnv
 from gym_minigrid.envs.right_corridor import RightCorridorEnv
+from gym_minigrid.envs.staircase import StaircaseEnv
