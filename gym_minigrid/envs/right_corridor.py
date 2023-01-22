@@ -101,8 +101,8 @@ class RightCorridorEnv(MiniGridEnv):
         goals = [MultiColorGoal("goal1", "red"),
                  MultiColorGoal("goal2", "green"),
                  MultiColorGoal("goal3", "blue"), 
-                 MultiColorGoal("goal4", "purple"),
-                 MultiColorGoal("goal5", "yellow")]
+                 MultiColorGoal("goal4", "purple")]
+                 # MultiColorGoal("goal5", "yellow")]
         
         goal_positions = [(width - 2, 1),
                           (width - 2, 3),
@@ -152,8 +152,8 @@ class RightCorridorEnv(MiniGridEnv):
                     reward = 3. / self.num_goals
                 elif fwd_cell.type == "goal4":
                     reward = 4. / self.num_goals
-                elif fwd_cell.type == "goal5":
-                    reward = 5. / self.num_goals
+                # elif fwd_cell.type == "goal5":
+                #    reward = 5. / self.num_goals
             if fwd_cell is not None and fwd_cell.type == "lava":
                 done = True
         # Pick up an object
