@@ -112,9 +112,9 @@ class StaircaseEnv(MiniGridEnv):
                  MultiColorGoal("goal2", "blue"), 
                  MultiColorGoal("goal3", "blue")]
         
-        goal_positions = [(3, 9),
+        goal_positions = [(2, 9),
                           (5, 1),
-                          (9, 9)]
+                          (8, 9)]
 
         
         for i in range(len(goals)):
