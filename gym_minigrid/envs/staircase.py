@@ -54,8 +54,8 @@ class StaircaseEnv(MiniGridEnv):
     def __init__(self, max_steps=100, **kwargs):
         self._agent_default_pos = (1, 1)
 
-        self.size = 11
-        self.num_goals = 5
+        self.size = 10
+        self.num_goals = 3
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -74,15 +74,15 @@ class StaircaseEnv(MiniGridEnv):
         # Create the grid
         self.grid = Grid(width, height)
 
-        for i in range(0, 3):
+        for i in range(1, 3):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("yellow"))
         
-        for i in range(3, 6):
+        for i in range(4, 6):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("green"))
         
-        for i in range(6, 10):
+        for i in range(7, 9):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("red"))
 
@@ -93,9 +93,8 @@ class StaircaseEnv(MiniGridEnv):
         self.grid.vert_wall(width - 1, 0)
 
         # Generate the corridor walls
-        self.grid.vert_wall(3, 1, 7)
-        self.grid.vert_wall(6, 3, 7)
-        self.grid.vert_wall(9, 1, 7)
+        self.grid.vert_wall(3, 1, 5)
+        self.grid.vert_wall(6, 4, 6)
 
         room_w = width // 2
         room_h = height // 2
@@ -112,9 +111,9 @@ class StaircaseEnv(MiniGridEnv):
                  MultiColorGoal("goal2", "blue"), 
                  MultiColorGoal("goal3", "blue")]
         
-        goal_positions = [(2, 9),
-                          (5, 1),
-                          (8, 9)]
+        goal_positions = [(1, 8),
+                          (4, 1),
+                          (7, 8)]
 
         
         for i in range(len(goals)):
