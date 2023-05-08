@@ -56,7 +56,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
         # self.size = 10
         self.num_goals = 3
         self.num_rooms = 3
-        self.room_width = 5
+        self.room_width = 3
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -74,8 +74,6 @@ class ChainedMultiroomEnv(MiniGridEnv):
     def _gen_grid(self, width, height):
         # Create the grid
         self.grid = Grid(width, height)
-        
-        print(width, height)
 
         for i in range(1, self.room_width + 1):
             for j in range(0, height):
