@@ -887,7 +887,7 @@ class MiniGridEnv(gym.Env):
         height: int = None,
         max_steps: int = 100,
         see_through_walls: bool = False,
-        agent_view_size: int = 9,
+        agent_view_size: int = 7,
         highlight: bool = True,
         tile_size: int = TILE_PIXELS,
         **kwargs,

@@ -56,7 +56,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
         # self.size = 10
         self.num_goals = 3
         self.num_rooms = 3
-        self.room_width = 3
+        self.room_width = 5
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -77,15 +77,15 @@ class ChainedMultiroomEnv(MiniGridEnv):
         
         print(width, height)
 
-        for i in range(1, 4):
+        for i in range(1, self.room_width + 1):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("yellow"))
         
-        for i in range(5, 8):
+        for i in range(self.room_width + 2, 2 * self.room_width + 2):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("green"))
         
-        for i in range(9, 12):
+        for i in range(2 * self.room_width + 3,  3 * self.room_width + 3):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("red"))
 
@@ -96,8 +96,8 @@ class ChainedMultiroomEnv(MiniGridEnv):
         self.grid.vert_wall(width - 1, 0)
 
         # Generate the corridor walls
-        self.grid.vert_wall(4, 2, 3)
-        self.grid.vert_wall(8, 2, 3)
+        self.grid.vert_wall(self.room_width + 1, 2, self.room_width)
+        self.grid.vert_wall(2 * self.room_width + 2, 2, self.room_width)
 
 
         # Randomize the player start orientation
@@ -111,9 +111,9 @@ class ChainedMultiroomEnv(MiniGridEnv):
                  MultiColorGoal("goal2", "blue"), 
                  MultiColorGoal("goal3", "blue")]
         
-        goal_positions = [(3, 3),
-                          (7, 3),
-                          (11, 3)]
+        goal_positions = [(self.room_width, self.room_width),
+                          (2 * self.room_width + 1, self.room_width),
+                          (3 * self.room_width + 2, self.room_width)]
 
         
         for i in range(len(goals)):
@@ -125,7 +125,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
     def step(self, action):
         self.step_count += 1
 
-        reward = -0.01  # Step cost.
+        reward = -0.001  # Step cost.
         done = False
 
         # Get the position in front of the agent
