@@ -5,6 +5,14 @@ from gym_minigrid.minigrid import Wall
 
 
 def register_custom_envs():
+    
+    # ChainedMultiRoomEnv
+    # ----------------------------------------
+
+    register(
+        id="MiniGrid-ChainedMultiroomEnv-v0",
+        entry_point="gym_minigrid.envs:ChainedMultiroomEnv"
+    )
 
     # StaircaseEnv
     # ----------------------------------------
