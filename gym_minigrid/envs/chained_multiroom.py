@@ -56,7 +56,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
         # self.size = 10
         self.num_goals = 3
         self.num_rooms = 3
-        self.room_width = 3
+        self.room_width = 9
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -86,6 +86,15 @@ class ChainedMultiroomEnv(MiniGridEnv):
         for i in range(2 * self.room_width + 3,  3 * self.room_width + 3):
             for j in range(0, height):
                 self.grid.set(i, j, Floor("red"))
+        
+        for i in range(3):
+            x = (i+1) + int(self.room_width / 2) + i * int(self.room_width)
+            y = 1 + int(self.room_width / 2)
+
+            self.grid.set(x, y, Floor("purple"))
+            self.grid.set(x + 1, y, Floor("green"))
+            self.grid.set(x, y + 1, Floor("grey"))
+            self.grid.set(x + 1, y + 1, Floor("purple"))
 
         # Generate the surrounding walls
         self.grid.horz_wall(0, 0)
