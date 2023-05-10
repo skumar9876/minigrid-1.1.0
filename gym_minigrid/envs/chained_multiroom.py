@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal, Floor
+from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal, Floor, Key
 import numpy as np
 
 
@@ -50,7 +50,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
 
     """
 
-    def __init__(self, max_steps=100, **kwargs):
+    def __init__(self, max_steps=50, **kwargs):
         self._agent_default_pos = (1, 1)
 
         # self.size = 10
@@ -91,10 +91,10 @@ class ChainedMultiroomEnv(MiniGridEnv):
             x = (i+1) + int(self.room_width / 2) + i * int(self.room_width)
             y = 1 + int(self.room_width / 2)
 
-            self.grid.set(x, y, Floor("purple"))
-            self.grid.set(x + 1, y, Floor("green"))
-            self.grid.set(x, y + 1, Floor("grey"))
-            self.grid.set(x + 1, y + 1, Floor("purple"))
+            self.grid.set(x - 1, y-1, Key("purple"))
+            self.grid.set(x + 2, y - 1, Key("green"))
+            self.grid.set(x - 1, y + 2, Key("grey"))
+            self.grid.set(x + 2, y + 2, Key("purple"))
 
         # Generate the surrounding walls
         self.grid.horz_wall(0, 0)
