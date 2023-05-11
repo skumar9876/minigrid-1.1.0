@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal, Floor, Key
+from gym_minigrid.minigrid import Goal, Grid, MiniGridEnv, MissionSpace, MultiColorGoal, Floor, Key, Ball, Box
 import numpy as np
 
 
@@ -50,7 +50,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
 
     """
 
-    def __init__(self, max_steps=50, **kwargs):
+    def __init__(self, max_steps=100, **kwargs):
         self._agent_default_pos = (1, 1)
 
         # self.size = 10
@@ -75,26 +75,32 @@ class ChainedMultiroomEnv(MiniGridEnv):
         # Create the grid
         self.grid = Grid(width, height)
 
-        for i in range(1, self.room_width + 1):
-            for j in range(0, height):
-                self.grid.set(i, j, Floor("yellow"))
+        # for i in range(1, self.room_width + 1):
+        #     for j in range(0, height):
+        #         self.grid.set(i, j, Floor("yellow"))
         
-        for i in range(self.room_width + 2, 2 * self.room_width + 2):
-            for j in range(0, height):
-                self.grid.set(i, j, Floor("green"))
+        # for i in range(self.room_width + 2, 2 * self.room_width + 2):
+        #     for j in range(0, height):
+        #         self.grid.set(i, j, Floor("green"))
         
-        for i in range(2 * self.room_width + 3,  3 * self.room_width + 3):
-            for j in range(0, height):
-                self.grid.set(i, j, Floor("red"))
+        # for i in range(2 * self.room_width + 3,  3 * self.room_width + 3):
+        #     for j in range(0, height):
+        #         self.grid.set(i, j, Floor("red"))
         
+        objects = [Key, Ball, Box]
+        
+        object_colors = {0: ["red", "grey", "blue", "grey"], 
+                         1: ["grey", "purple", "green", "purple"], 
+                         2: ["blue", "red", "yellow", "red"]}
         for i in range(3):
             x = (i+1) + int(self.room_width / 2) + i * int(self.room_width)
             y = 1 + int(self.room_width / 2)
 
-            self.grid.set(x - 1, y-1, Key("purple"))
-            self.grid.set(x + 2, y - 1, Key("green"))
-            self.grid.set(x - 1, y + 2, Key("grey"))
-            self.grid.set(x + 2, y + 2, Key("purple"))
+            object = objects[i]
+            self.grid.set(x - 1, y - 1, object(object_colors[i][0]))
+            self.grid.set(x - 1, y + 2, object(object_colors[i][1]))
+            self.grid.set(x + 2, y + 2, object(object_colors[i][2]))
+            self.grid.set(x + 2, y - 1, object(object_colors[i][3]))
 
         # Generate the surrounding walls
         self.grid.horz_wall(0, 0)
@@ -114,8 +120,8 @@ class ChainedMultiroomEnv(MiniGridEnv):
         self.agent_dir = self._rand_int(0, 4)
 
         # Create and set the goals.
-        goals = [MultiColorGoal("goal1", "blue"),
-                 MultiColorGoal("goal2", "blue"), 
+        goals = [MultiColorGoal("goal1", "red"),
+                 MultiColorGoal("goal2", "green"), 
                  MultiColorGoal("goal3", "blue")]
         
         goal_positions = [(self.room_width, self.room_width),
