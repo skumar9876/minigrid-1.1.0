@@ -56,7 +56,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
         # self.size = 10
         self.num_goals = 3
         self.num_rooms = 3
-        self.room_width = 9
+        self.room_width = 7
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
         super().__init__(
@@ -138,7 +138,7 @@ class ChainedMultiroomEnv(MiniGridEnv):
     def step(self, action):
         self.step_count += 1
 
-        reward = -0.001  # Step cost.
+        reward = -0.01  # Step cost.
         done = False
 
         # Get the position in front of the agent
